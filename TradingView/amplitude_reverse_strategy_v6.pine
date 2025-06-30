@@ -1,0 +1,81 @@
+//@version=6
+strategy("1分钟振幅突破反向策略", overlay=true, default_qty_type=strategy.fixed, default_qty_value=10, initial_capital=1000, currency=currency.USD, pyramiding=0)
+
+// 交易参数
+leverage = 10
+symbol = "VINE-USDT-SWAP"
+take_profit_perc = 0.005      // 止盈0.5%
+stop_loss_perc   = 0.01     // 止损1%
+amplitude_perc   = 0.08     // 振幅8%
+
+// 计算振幅
+amplitude = (high - low) / low
+
+// 判断K线颜色
+is_green = close > open
+is_red   = close < open
+
+// 记录委托价格
+var float order_price = na
+var string order_id = na
+
+// 检查是否有未成交委托
+var bool has_pending_order = false
+
+// 计算每次下单币数量（保证金10USDT，10倍杠杆，价值约100USDT，向上取整且为10的倍数）
+margin = 10
+trade_value = margin * leverage  // 100 USDT
+raw_qty = trade_value / close
+qty = math.ceil(raw_qty / 10) * 10  // 向上取整为10的倍数
+
+// 只在每根K线收盘时操作
+if barstate.isconfirmed
+    // 如果有未成交委托，检查是否需要撤单
+    if has_pending_order and not na(order_price)
+        // 计算止盈价
+        float tp_price = na
+        if strategy.position_size < 0
+            tp_price := order_price * (1 - take_profit_perc)
+        else
+            tp_price := order_price * (1 + take_profit_perc)
+        // 如果指数价格已经超过止盈价，撤单
+        if (strategy.position_size == 0) and ((is_green and close <= tp_price) or (is_red and close >= tp_price))
+            strategy.cancel(id=order_id)
+            has_pending_order := false
+            order_price := na
+            order_id := na
+
+    // 没有持仓且没有挂单时，判断是否开仓
+    if strategy.position_size == 0 and not has_pending_order
+        if amplitude >= amplitude_perc
+            if is_green
+                // 绿色K线，开空
+                order_price := close
+                order_id := "short_" + str.tostring(time)
+                strategy.entry(id=order_id, direction=strategy.short, limit=order_price, comment="开空", qty=qty)
+                strategy.exit(id="tp_sl_short", from_entry=order_id, limit=order_price * (1 - take_profit_perc), stop=order_price * (1 + stop_loss_perc))
+                has_pending_order := true
+            else if is_red
+                // 红色K线，开多
+                order_price := close
+                order_id := "long_" + str.tostring(time)
+                strategy.entry(id=order_id, direction=strategy.long, limit=order_price, comment="开多", qty=qty)
+                strategy.exit(id="tp_sl_long", from_entry=order_id, limit=order_price * (1 + take_profit_perc), stop=order_price * (1 - stop_loss_perc))
+                has_pending_order := true
+
+// 成交后重置挂单状态
+if strategy.position_size != 0
+    has_pending_order := false
+    order_price := na
+    order_id := na
+
+// 图表显示
+plotshape(amplitude >= amplitude_perc and is_green, title="开空信号", style=shape.triangledown, location=location.abovebar, color=color.red, size=size.tiny)
+plotshape(amplitude >= amplitude_perc and is_red, title="开多信号", style=shape.triangleup, location=location.belowbar, color=color.green, size=size.tiny)
+
+// 杠杆说明（仅做标注，实际杠杆需在交易所设置）
+var label lev_label = na
+if na(lev_label)
+    lev_label := label.new(x=bar_index, y=high, text="杠杆：10x\n每单10USDT", color=color.blue, style=label.style_label_down)
+else
+    label.set_xy(lev_label, bar_index, high) 
