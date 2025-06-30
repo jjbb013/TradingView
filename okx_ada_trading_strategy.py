@@ -17,7 +17,7 @@ from notification_service import notification_service
 # ============== 可配置参数区域 ==============
 # 交易标的参数
 INST_ID = "ADA-USDT-SWAP"  # 交易标的
-BAR = "15m"  # K线规格
+BAR = "5m"  # K线规格
 LIMIT = 2  # 获取K线数量
 LEVERAGE = 10  # 杠杆倍数
 SizePoint = 0  # 下单数量的小数点保留位数
