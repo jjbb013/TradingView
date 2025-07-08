@@ -1,0 +1,204 @@
+[2025-07-03 00:00:20] INFO [main] API初始化完成
+[2025-07-03 00:00:21] INFO [main] K线数据获取完成，最新收盘价为 2497.61
+[2025-07-03 00:00:28] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:00:28] INFO [main] 未满足开仓条件
+[2025-07-03 00:03:41] INFO [main] API初始化完成
+[2025-07-03 00:03:41] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:03:41] INFO [main] K线数据获取完成，最新收盘价为 3190.0
+[2025-07-03 00:03:49] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:03:49] INFO [main] 未满足开仓条件
+[2025-07-03 00:06:03] INFO [main] API初始化完成
+[2025-07-03 00:06:03] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:06:03] INFO [main] K线数据获取完成，最新收盘价为 3120.0
+[2025-07-03 00:06:10] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:06:10] INFO [main] 未满足开仓条件
+[2025-07-03 00:08:42] INFO [main] API初始化完成
+[2025-07-03 00:08:42] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:08:42] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:08:49] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:08:49] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:08:49] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:08:49] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:08:49] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:08:49] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:08:49] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:08:49] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:08:49] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:08:49] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703000849nunWdg', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703000849CR4wuv', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:08:49] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:15:11] INFO [main] API初始化完成
+[2025-07-03 00:15:11] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:15:11] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:15:18] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:15:18] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:15:18] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:15:18] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:15:18] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:15:18] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:15:18] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:15:18] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:15:18] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:15:18] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH2025070300151890LIK9', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703001518XLrkax', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:15:18] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:19:08] INFO [main] API初始化完成
+[2025-07-03 00:19:08] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:19:08] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:19:15] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:19:15] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:19:15] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:19:15] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:19:15] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:19:15] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:19:15] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:19:15] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:19:15] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:19:15] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703001915V9TJw8', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703001915IXuxKS', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:19:15] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:19:15] INFO [notify] 已发送Bark通知
+[2025-07-03 00:21:18] INFO [main] API初始化完成
+[2025-07-03 00:21:18] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:21:18] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:21:26] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:21:26] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:21:26] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:21:26] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:21:26] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:21:26] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:21:26] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:21:26] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:21:26] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:21:26] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703002126ZHDoOB', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH202507030021263aTH17', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:21:26] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:21:26] INFO [notify] 已发送Bark通知
+[2025-07-03 00:25:40] INFO [main] API初始化完成
+[2025-07-03 00:25:40] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:25:40] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:25:48] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:25:48] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:25:48] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:25:48] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:25:48] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:25:48] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:25:48] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:25:48] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:25:48] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:25:48] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703002548AXjkDb', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703002548r9rfEM', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:25:49] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:25:49] INFO [notify] 已发送Bark通知
+[2025-07-03 00:34:17] INFO [main] API初始化完成
+[2025-07-03 00:34:17] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:34:17] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:34:25] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:34:25] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:34:25] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:34:25] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:34:25] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:34:25] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:34:25] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:34:25] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:34:25] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:34:25] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703003425uJhDSR', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH202507030034258jvSip', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:34:25] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:34:25] INFO [notify] 已发送Bark通知
+[2025-07-03 00:35:56] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:35:56] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:35:56] INFO [main] API初始化完成
+[2025-07-03 00:35:56] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:35:56] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:36:04] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:36:04] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:36:04] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:36:04] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:36:04] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:36:04] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:36:04] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:36:04] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:36:04] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:36:04] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703003604VluFMZ', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703003604pEayfE', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:36:05] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:36:05] INFO [notify] 已发送Bark通知
+[2025-07-03 00:39:22] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:39:22] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:39:22] INFO [main] API初始化完成
+[2025-07-03 00:39:22] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:39:22] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:39:31] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:39:31] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:39:31] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:39:31] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:39:31] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:39:31] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:39:31] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:39:31] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:39:31] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:39:31] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703003931HSxbeX', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703003931SrSOvR', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:39:31] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:39:31] INFO [notify] 已发送Bark通知
+[2025-07-03 00:39:48] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:39:48] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:39:48] INFO [main] API初始化完成
+[2025-07-03 00:39:48] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:39:48] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:39:56] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:39:56] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:39:56] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:39:56] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:39:56] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:39:56] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:39:56] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:39:56] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:39:56] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:39:56] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH202507030039562duCvS', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703003956ukWsW5', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:39:56] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:39:56] INFO [notify] 已发送Bark通知
+[2025-07-03 00:44:19] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:44:19] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:44:19] INFO [main] API初始化完成
+[2025-07-03 00:44:19] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:44:19] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:44:28] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:44:28] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:44:28] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:44:28] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:44:28] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:44:28] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:44:28] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:44:28] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:44:28] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:44:28] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703004428Yrx1Yy', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH2025070300442840tTDO', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:44:29] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:44:29] INFO [notify] 已发送Bark通知
+[2025-07-03 00:47:18] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:47:18] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:47:18] INFO [main] API初始化完成
+[2025-07-03 00:47:18] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:47:18] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:47:25] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:47:25] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:47:25] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:47:25] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:47:25] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:47:25] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:47:25] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:47:25] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:47:25] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:47:25] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703004725VoCyg5', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703004725W7XJ5W', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:47:26] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:47:26] INFO [notify] 已发送Bark通知
+[2025-07-03 00:47:34] INFO [main] [环境变量] OKX账户: name=None, api_key=None, secret_key=None, passphrase=None, flag=None
+[2025-07-03 00:47:34] INFO [main] [环境变量] Bark: key=None, group=None
+[2025-07-03 00:47:34] INFO [main] API初始化完成
+[2025-07-03 00:47:34] INFO [main] 已启用假K线数据进行测试
+[2025-07-03 00:47:34] INFO [main] K线数据获取完成，最新收盘价为 3128.0
+[2025-07-03 00:47:42] INFO [main] 无未成交委托，进入信号判断
+[2025-07-03 00:47:42] INFO [main] K1实体振幅: |3128.0-3200.0|/3200.0 = 2.2500%
+[2025-07-03 00:47:42] INFO [main] K2方向: open=3250.0, close=3230.0, is_long=False, is_short=True
+[2025-07-03 00:47:42] INFO [main] K2单向振幅: |3230.0-3250.0|/3250.0 = 0.6154%
+[2025-07-03 00:47:42] INFO [main] K3单向振幅: |3290.0-3300.0|/3300.0 = 0.3030%
+[2025-07-03 00:47:42] INFO [main] K4单向振幅: |3340.0-3350.0|/3350.0 = 0.2985%
+[2025-07-03 00:47:42] INFO [main] K5单向振幅: |3390.0-3400.0|/3400.0 = 0.2941%
+[2025-07-03 00:47:42] INFO [main] K2~K5总单向振幅: 1.5110%
+[2025-07-03 00:47:42] INFO [main] 开仓条件: body1(2.2500%)>0.80% and <2.50%, total_range(1.5110%)<3.00%, is_short=True
+[2025-07-03 00:47:42] INFO [main] 下单参数: {'instId': 'ETH-USDT-SWAP', 'tdMode': 'cross', 'side': 'sell', 'ordType': 'limit', 'px': '3124.87', 'sz': '0.2', 'clOrdId': 'ETH20250703004742VEH8R8', 'posSide': 'short', 'attachAlgoOrds': [{'attachAlgoClOrdId': 'ETH20250703004742lxE969', 'tpTriggerPx': '3081.08', 'tpOrdPx': '-1', 'tpOrdKind': 'condition', 'slTriggerPx': '3171.79', 'slOrdPx': '-1', 'tpTriggerPxType': 'last', 'slTriggerPxType': 'last'}]}
+[2025-07-03 00:47:42] INFO [main] 下单结果: {'msg': 'Invalid OK-ACCESS-KEY', 'code': '50111'}
+[2025-07-03 00:47:42] INFO [notify] 已发送Bark通知

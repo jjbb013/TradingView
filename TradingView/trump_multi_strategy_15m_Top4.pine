@@ -1,0 +1,62 @@
+// @version=6
+strategy("TRUMP 15m 分段振幅多参数策略-Top4", overlay=true, pyramiding=0, default_qty_type=strategy.cash, default_qty_value=100, initial_capital=10000)
+
+float amp_1 = 0.012
+float amp_2 = 0.032
+float amp_3 = 0.062
+float take_profit_1 = 0.05
+float stop_loss_1   = 0.05
+float take_profit_2 = 0.05
+float stop_loss_2   = 0.01
+float take_profit_3 = 0.05
+float stop_loss_3   = 0.01
+
+amp = math.abs(close - open) / open
+is_green = close > open
+is_red = close < open
+string signal = na
+float entry_price = na
+string param_label = na
+float take_profit = na
+float stop_loss = na
+
+if amp >= amp_3
+    entry_price := close
+    signal := is_green ? "SHORT" : "LONG"
+    take_profit := take_profit_3
+    stop_loss := stop_loss_3
+    param_label := "参数3"
+else if amp >= amp_2 and amp < amp_3
+    entry_price := close
+    signal := is_green ? "SHORT" : "LONG"
+    take_profit := take_profit_2
+    stop_loss := stop_loss_2
+    param_label := "参数2"
+else if amp >= amp_1 and amp < amp_2
+    entry_price := close
+    signal := is_green ? "SHORT" : "LONG"
+    take_profit := take_profit_1
+    stop_loss := stop_loss_1
+    param_label := "参数1"
+
+if not na(signal)
+    color sig_color = signal == "LONG" ? color.green : color.red
+    label.new(bar_index, close, text=param_label + ":" + signal, color=sig_color, style=label.style_label_up, textcolor=color.white, size=size.small)
+
+entry_id = "ENTRY_" + param_label
+exit_id  = "EXIT_" + param_label
+in_long  = strategy.position_size > 0 and strategy.opentrades.entry_id(strategy.opentrades - 1) == entry_id
+in_short = strategy.position_size < 0 and strategy.opentrades.entry_id(strategy.opentrades - 1) == entry_id
+if not na(signal)
+    if signal == "LONG" and not in_long
+        tp = entry_price * (1 + take_profit)
+        sl = entry_price * (1 - stop_loss)
+        strategy.entry(entry_id, strategy.long)
+        strategy.exit(exit_id, from_entry=entry_id, limit=tp, stop=sl)
+    if signal == "SHORT" and not in_short
+        tp = entry_price * (1 - take_profit)
+        sl = entry_price * (1 + stop_loss)
+        strategy.entry(entry_id, strategy.short)
+        strategy.exit(exit_id, from_entry=entry_id, limit=tp, stop=sl)
+if bar_index % 20 == 0 and barstate.islast
+    label.new(bar_index, high, text="参数1:止盈0.05止损0.05振幅[0.012,0.032)\n参数2:止盈0.05止损0.01振幅[0.032,0.062)\n参数3:止盈0.05止损0.01振幅[0.062,+∞)", color=color.blue, style=label.style_label_down, textcolor=color.white, size=size.tiny) 

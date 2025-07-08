@@ -1,0 +1,49 @@
+//@version=6
+strategy("5m K1振幅+K2方向顺势策略", overlay=true, default_qty_type=strategy.fixed, default_qty_value=10, initial_capital=1000, currency=currency.USD, pyramiding=100)
+
+// 可调参数
+min_body1 = input.float(0.01, "K1最小实体振幅(1%)", step=0.001)
+max_body1 = input.float(0.04, "K1最大实体振幅(4%)", step=0.001)
+max_total_range = input.float(0.01, "K2~K5总单向振幅上限(1%)", step=0.001)
+take_profit_perc = input.float(0.01, "止盈百分比(1%)", step=0.001)
+stop_loss_perc   = input.float(0.02, "止损百分比(2%)", step=0.001)
+
+// 杠杆与下单金额参数
+leverage = 10
+margin = 10  // 每单保证金10USDT
+trade_value = margin * leverage  // 每单名义价值100USDT
+
+// K1实体振幅
+body1 = math.abs(close - open) / open
+
+// K2方向
+is_long = close[1] > open[1]
+is_short = close[1] < open[1]
+
+// 计算K2~K5的总单向振幅
+float total_range = 0.0
+for i = 1 to 4
+    total_range += math.abs(close[i] - open[i]) / open[i]
+
+// 满足条件则开仓（可重复开仓，pyramiding大于1）
+entry_price = close
+can_entry = body1 > min_body1 and body1 < max_body1 and total_range < max_total_range
+take_profit = entry_price * (is_long ? 1 + take_profit_perc : 1 - take_profit_perc)
+stop_loss   = entry_price * (is_long ? 1 - stop_loss_perc : 1 + stop_loss_perc)
+
+// 动态计算下单数量（100USDT名义价值，向上取整为10的倍数）
+raw_qty = trade_value / entry_price
+qty = math.ceil(raw_qty / 10) * 10
+
+if can_entry
+    if is_long
+        strategy.entry("Long", strategy.long, qty=qty, limit=entry_price)
+        strategy.exit("TP/SL Long", from_entry="Long", limit=take_profit, stop=stop_loss)
+        label.new(bar_index, entry_price, "K2顺势做多", color=color.green, style=label.style_label_up, size=size.small)
+    if is_short
+        strategy.entry("Short", strategy.short, qty=qty, limit=entry_price)
+        strategy.exit("TP/SL Short", from_entry="Short", limit=take_profit, stop=stop_loss)
+        label.new(bar_index, entry_price, "K2顺势做空", color=color.red, style=label.style_label_down, size=size.small)
+
+if bar_index % 20 == 0 and barstate.islast
+    label.new(bar_index, high, text="杠杆：10x\n每单10USDT保证金\n动态下单100USDT价值\n限价滑点1%", color=color.blue, style=label.style_label_down, textcolor=color.white, size=size.tiny) 

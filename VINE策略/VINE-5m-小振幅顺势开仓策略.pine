@@ -1,0 +1,67 @@
+//@version=6
+strategy("VINE-5m-小振幅顺势开仓策略", overlay=true, default_qty_type=strategy.cash, default_qty_value=100, currency=currency.USDT, slippage=2)
+
+// ===== 参数设置 =====
+takeProfitPerc = 1.5   // 止盈比例 %
+stopLossPerc = 3       // 止损比例 %
+orderExpireHours = 1   // 订单有效期（小时）
+
+// ===== 振幅判定 =====
+changePerc = math.abs(close - open) / open * 100
+inRange1 = changePerc >= 1 and changePerc <= 1.5
+
+isGreen = close > open
+isRed = close < open
+
+// ===== 订单跟踪变量 =====
+var float entryPrice = na
+var string activeOrderID = na
+var int orderPlacedTime = na
+
+// ===== 超时撤单 =====
+if not na(activeOrderID) and (timenow - orderPlacedTime >= orderExpireHours * 3600000)
+    strategy.cancel(activeOrderID)
+    activeOrderID := na
+    orderPlacedTime := na
+
+// ===== 开仓逻辑 =====
+if strategy.position_size == 0
+    if inRange1
+        calculatedEntryPrice = (high + low) / 2
+        if not na(calculatedEntryPrice)
+            if not na(activeOrderID)
+                strategy.cancel(activeOrderID)
+                activeOrderID := na
+                orderPlacedTime := na
+            qty = 100 / calculatedEntryPrice
+            if isGreen
+                strategy.entry("Long", strategy.long, qty=qty, limit=calculatedEntryPrice)
+                activeOrderID := "Long"
+                orderPlacedTime := timenow
+            else if isRed
+                strategy.entry("Short", strategy.short, qty=qty, limit=calculatedEntryPrice)
+                activeOrderID := "Short"
+                orderPlacedTime := timenow
+
+// ===== 仓位管理 =====
+if strategy.opentrades > 0 and na(entryPrice)
+    entryPrice := strategy.opentrades.entry_price(strategy.opentrades - 1)
+    activeOrderID := na
+    orderPlacedTime := na
+
+if not na(entryPrice) and strategy.position_size != 0
+    if strategy.position_size > 0
+        tpPrice = entryPrice * (1 + takeProfitPerc / 100)
+        slPrice = entryPrice * (1 - stopLossPerc / 100)
+        strategy.exit("Long Exit", "Long", stop=slPrice, limit=tpPrice)
+    else
+        tpPrice = entryPrice * (1 - takeProfitPerc / 100)
+        slPrice = entryPrice * (1 + stopLossPerc / 100)
+        strategy.exit("Short Exit", "Short", stop=slPrice, limit=tpPrice)
+
+// ===== 状态重置 =====
+if strategy.position_size == 0
+    entryPrice := na
+
+// ===== 可视化辅助 =====
+plot(inRange1 ? low : na, title="区间1信号", color=color.blue, style=plot.style_circles, linewidth=3) 

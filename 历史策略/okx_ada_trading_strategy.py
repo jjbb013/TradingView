@@ -1,8 +1,8 @@
 """
 任务名称
-name: OKX TRUMP 自动交易 PROD
+name: OKX ADA 自动交易 PROD
 定时规则
-cron: 1 */15 * * * *
+cron: 1 */5 * * * *
 """
 import os
 import json
@@ -16,18 +16,21 @@ from notification_service import notification_service
 
 # ============== 可配置参数区域 ==============
 # 交易标的参数
-INST_ID = "TRUMP-USDT-SWAP"  # 交易标的
-BAR = "15m"  # K线规格
+INST_ID = "ADA-USDT-SWAP"  # 交易标的
+BAR = "5m"  # K线规格
 LIMIT = 2  # 获取K线数量
 LEVERAGE = 10  # 杠杆倍数
 SizePoint = 0  # 下单数量的小数点保留位数
-CONTRACT_FACE_VALUE = 10  # TRUMP-USDT-SWAP合约面值为10美元
+CONTRACT_FACE_VALUE = 10  # ADA-USDT-SWAP合约面值为10美元
 
 # 策略参数
-MARGIN = 10  # 保证金(USDT)
-TAKE_PROFIT_PERCENT = 0.02  # 止盈2%
-STOP_LOSS_PERCENT = 0.03    # 止损3%
-AMPLITUDE_PERCENT = 0.05    # 振幅5%
+MARGIN = 5  # 保证金(USDT)
+TAKE_PROFIT_PERCENT = 0.012  # 止盈1.2%
+STOP_LOSS_PERCENT = 0.012    # 止损1.2%
+AMPLITUDE_PERCENT = 0.021    # 振幅2.1%
+
+# 价格比较容差（避免因微小价格波动导致的误判）
+PRICE_TOLERANCE = 0.0001  # 0.01%的容差
 
 # 环境变量账户后缀，支持多账号
 ACCOUNT_SUFFIXES = ["", "1", "2", "3"]
@@ -36,90 +39,12 @@ ACCOUNT_SUFFIXES = ["", "1", "2", "3"]
 MAX_RETRIES = 3
 RETRY_DELAY = 2
 
-# 价格比较容差（避免因微小价格波动导致的误判）
-PRICE_TOLERANCE = 0.0001  # 0.01%的容差
-
 def get_beijing_time():
     beijing_tz = timezone(timedelta(hours=8))
     return datetime.now(beijing_tz).strftime("%Y-%m-%d %H:%M:%S")
 
 def get_env_var(var_name, suffix="", default=None):
     return os.getenv(f"{var_name}{suffix}", default)
-
-def get_orders_pending(trade_api, account_prefix=""):
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            result = trade_api.get_order_list(instId=INST_ID, state="live")
-            if result and 'code' in result and result['code'] == '0' and 'data' in result:
-                print(f"[{get_beijing_time()}] {account_prefix} [ORDERS] 成功获取{len(result['data'])}个未成交订单")
-                return result['data']
-            error_msg = result.get('msg', '') if result else '无响应'
-            print(f"[{get_beijing_time()}] {account_prefix} [ORDERS] 获取未成交订单失败: {error_msg}")
-        except Exception as e:
-            print(f"[{get_beijing_time()}] {account_prefix} [ORDERS] 获取未成交订单异常 (尝试 {attempt+1}/{MAX_RETRIES+1}): {str(e)}")
-        if attempt < MAX_RETRIES:
-            print(f"[{get_beijing_time()}] {account_prefix} [ORDERS] 重试中... ({attempt+1}/{MAX_RETRIES})")
-            time.sleep(RETRY_DELAY)
-    print(f"[{get_beijing_time()}] {account_prefix} [ORDERS] 所有尝试失败")
-    return []
-
-def cancel_pending_open_orders(trade_api, account_prefix=""):
-    all_pending_orders = get_orders_pending(trade_api, account_prefix)
-    cancel_orders = []
-    for order in all_pending_orders:
-        if order.get('ordType', '') == 'limit' and order.get('state', '') == 'live':
-            cancel_orders.append({"instId": INST_ID, "ordId": order['ordId']})
-    if not cancel_orders:
-        print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 无需要撤销的开仓订单")
-        return False
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            cancel_data = {"cancels": cancel_orders}
-            print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 正在批量撤销{len(cancel_orders)}个开仓订单 (尝试 {attempt+1}/{MAX_RETRIES+1})")
-            result = trade_api._request('POST', '/api/v5/trade/cancel-batch-orders', body=cancel_data)
-            if result and 'code' in result and result['code'] == '0':
-                print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 所有{len(cancel_orders)}个订单撤销成功")
-                time.sleep(2)
-                return True
-            error_msg = result.get('msg', '') if result else '无响应'
-            print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 批量撤销失败: {error_msg}")
-        except Exception as e:
-            print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 撤销订单异常 (尝试 {attempt+1}/{MAX_RETRIES+1}): {str(e)}")
-        if attempt < MAX_RETRIES:
-            print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 重试中... ({attempt+1}/{MAX_RETRIES})")
-            time.sleep(RETRY_DELAY)
-    print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 所有尝试失败")
-    return False
-
-def analyze_kline(kline):
-    open_price = float(kline[1])
-    high_price = float(kline[2])
-    low_price = float(kline[3])
-    close_price = float(kline[4])
-    amplitude = (high_price - low_price) / low_price
-    is_green = close_price > open_price
-    is_red = close_price < open_price
-    signal = None
-    entry_price = None
-    if amplitude >= AMPLITUDE_PERCENT:
-        entry_price = close_price
-        signal = 'SHORT' if is_green else 'LONG'
-    return signal, entry_price, {
-        'open': open_price,
-        'high': high_price,
-        'low': low_price,
-        'close': close_price,
-        'amplitude': amplitude,
-        'is_green': is_green,
-        'is_red': is_red,
-        'signal': signal,
-        'entry_price': entry_price
-    }
-
-def generate_clord_id():
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    random_str = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    return f"TRUMP{timestamp}{random_str}"[:32]
 
 def get_current_price(market_api, inst_id, account_prefix=""):
     for attempt in range(MAX_RETRIES + 1):
@@ -212,6 +137,36 @@ def cancel_order(trade_api, inst_id, ord_id, account_prefix=""):
             time.sleep(RETRY_DELAY)
     print(f"[{get_beijing_time()}] {account_prefix} [CANCEL] 订单{ord_id}撤销失败")
     return False, "撤销失败"
+
+def analyze_kline(kline):
+    open_price = float(kline[1])
+    high_price = float(kline[2])
+    low_price = float(kline[3])
+    close_price = float(kline[4])
+    amplitude = (high_price - low_price) / low_price
+    is_green = close_price > open_price
+    is_red = close_price < open_price
+    signal = None
+    entry_price = None
+    if amplitude >= AMPLITUDE_PERCENT:
+        entry_price = close_price
+        signal = 'SHORT' if is_green else 'LONG'
+    return signal, entry_price, {
+        'open': open_price,
+        'high': high_price,
+        'low': low_price,
+        'close': close_price,
+        'amplitude': amplitude,
+        'is_green': is_green,
+        'is_red': is_red,
+        'signal': signal,
+        'entry_price': entry_price
+    }
+
+def generate_clord_id():
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    random_str = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    return f"ADA{timestamp}{random_str}"[:32]
 
 def process_account_trading(account_suffix, signal, entry_price, amp_info):
     suffix = account_suffix if account_suffix else ""
@@ -375,7 +330,7 @@ def get_kline_data():
     return signal, entry_price, amp_info
 
 if __name__ == "__main__":
-    print(f"[{get_beijing_time()}] [INFO] 开始TRUMP自动交易策略")
+    print(f"[{get_beijing_time()}] [INFO] 开始ADA自动交易策略")
     signal, entry_price, amp_info = get_kline_data()
     if not signal:
         print(f"[{get_beijing_time()}] [INFO] 未检测到交易信号")

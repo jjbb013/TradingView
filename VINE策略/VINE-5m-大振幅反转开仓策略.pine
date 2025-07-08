@@ -1,0 +1,103 @@
+//@version=6
+strategy("VINE-5m-大振幅反转开仓策略", overlay=true, default_qty_type=strategy.cash, default_qty_value=100, currency=currency.USDT, slippage=1)
+
+// ===== 参数设置 =====
+takeProfitPerc = input.float(1.2, "止盈比例(%)", step=0.1)   // 止盈比例 1.2%
+stopLossPerc = input.float(2.8, "止损比例(%)", step=0.1)       // 止损比例 2.8%
+orderExpireHours = input.int(1, "订单有效期（小时）")   // 订单有效期（小时）
+range2Threshold = input.float(0.9, "大振幅阈值(%)", step=0.1)   // 振幅阈值 0.9%
+slippagePerc = 0.01  // 滑点百分比 0.01%
+
+// ===== 基础参数 =====
+var float LEVERAGE = 1.0  // 杠杆倍数改为1倍
+var float QTY_USDT = 100.0  // 保证金改为100USDT
+
+// ===== 振幅判定 =====
+range2 = (high - low) / low * 100
+inRange2 = range2 > range2Threshold
+
+isGreen = close > open
+isRed = close < open
+
+// ===== 订单跟踪变量 =====
+var float entryPrice = na
+var string activeOrderID = na
+var int orderPlacedTime = na
+
+// ===== 计算下单数量（必须为整数） =====
+contract_value = close * 0.01  // 合约面值0.01
+raw_position_size = QTY_USDT * LEVERAGE / contract_value
+position_size = math.round(raw_position_size)  // 四舍五入为整数
+
+// ===== 超时撤单 =====
+if not na(activeOrderID) and (timenow - orderPlacedTime >= orderExpireHours * 3600000)
+    strategy.cancel(activeOrderID)
+    activeOrderID := na
+    orderPlacedTime := na
+
+// ===== 开仓逻辑 =====
+if strategy.position_size == 0
+    if inRange2 and position_size >= 1
+        float calculatedEntryPrice = na
+        float orderPrice = na
+        if isGreen
+            calculatedEntryPrice := (close + high) / 2
+            orderPrice := calculatedEntryPrice * (1 - slippagePerc / 100)  // 开空，滑点向下
+            strategy.entry("Short", strategy.short, qty=position_size, limit=orderPrice)
+            activeOrderID := "Short"
+            orderPlacedTime := timenow
+        else if isRed
+            calculatedEntryPrice := (close + low) / 2
+            orderPrice := calculatedEntryPrice * (1 + slippagePerc / 100)  // 开多，滑点向上
+            strategy.entry("Long", strategy.long, qty=position_size, limit=orderPrice)
+            activeOrderID := "Long"
+            orderPlacedTime := timenow
+
+// ===== 仓位管理 =====
+if strategy.opentrades > 0 and na(entryPrice)
+    entryPrice := strategy.opentrades.entry_price(strategy.opentrades - 1)
+    activeOrderID := na
+    orderPlacedTime := na
+
+if not na(entryPrice) and strategy.position_size != 0
+    if strategy.position_size > 0
+        tpPrice = entryPrice * (1 + takeProfitPerc / 100)
+        slPrice = entryPrice * (1 - stopLossPerc / 100)
+        strategy.exit("Long Exit", "Long", stop=slPrice, limit=tpPrice)
+    else
+        tpPrice = entryPrice * (1 - takeProfitPerc / 100)
+        slPrice = entryPrice * (1 + stopLossPerc / 100)
+        strategy.exit("Short Exit", "Short", stop=slPrice, limit=tpPrice)
+
+// ===== 状态重置 =====
+if strategy.position_size == 0
+    entryPrice := na
+
+// ===== 可视化辅助 =====
+plot(inRange2 and position_size >= 1 ? high : na, title="区间2信号", color=color.red, style=plot.style_circles, linewidth=3)
+
+// ===== 信号标记 =====
+plotshape(inRange2 and isGreen and position_size >= 1, title="做空信号", style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small)
+plotshape(inRange2 and isRed and position_size >= 1, title="做多信号", style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small)
+
+// ===== 信息表格 =====
+var table info_table = table.new(position.top_right, 2, 5, bgcolor=color.white, border_width=1)
+if barstate.islast
+    table.cell(info_table, 0, 0, "参数", text_color=color.black, bgcolor=color.gray)
+    table.cell(info_table, 1, 0, "数值", text_color=color.black, bgcolor=color.gray)
+    
+    table.cell(info_table, 0, 1, "振幅", text_color=color.black)
+    table.cell(info_table, 1, 1, str.tostring(range2, "#.##") + "%", text_color=color.blue)
+    
+    table.cell(info_table, 0, 2, "K线方向", text_color=color.black)
+    table.cell(info_table, 1, 2, isGreen ? "阳线" : isRed ? "阴线" : "平盘", text_color=isGreen ? color.green : isRed ? color.red : color.gray)
+    
+    table.cell(info_table, 0, 3, "下单数量", text_color=color.black)
+    table.cell(info_table, 1, 3, str.tostring(position_size), text_color=color.black)
+    
+    table.cell(info_table, 0, 4, "持仓数量", text_color=color.black)
+    table.cell(info_table, 1, 4, str.tostring(strategy.position_size), text_color=color.black)
+
+// ===== 警报设置 =====
+alertcondition(inRange2 and isGreen and position_size >= 1, title="做空信号", message="VINE做空信号触发 - 价格: {{close}}, 数量: {{strategy.order.size}}")
+alertcondition(inRange2 and isRed and position_size >= 1, title="做多信号", message="VINE做多信号触发 - 价格: {{close}}, 数量: {{strategy.order.size}}") 
