@@ -1,6 +1,6 @@
 """
 任务名称
-name: OKX ETH K7趋势策略
+name: OKX ETH K6趋势策略
 定时规则
 cron: 3 */5 * * * *
 基于Pine脚本的ETH 5分钟K1振幅+K2方向顺势策略
@@ -170,7 +170,7 @@ def main():
     pos_side = signal.get('pos_side')
     signal_type = str(pos_side) if isinstance(pos_side, str) and pos_side in ('long', 'short') else "无信号"
     notification_service.send_trading_notification(
-        account_name="ETH-K1K2",
+        account_name="ETH-K6 策略",
         inst_id=INST_ID,
         signal_type=signal_type,
         entry_price=signal['entry_price'],

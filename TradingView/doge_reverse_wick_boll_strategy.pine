@@ -1,0 +1,79 @@
+//@version=6
+strategy("DOGE-USDT-SWAP 5m 反向影线布林策略", overlay=true, default_qty_type=strategy.cash, default_qty_value=10, currency=currency.USDT, pyramiding=10)
+
+// === 参数 ===
+leverage = 20
+take_profit_perc = 0.02  // 2%
+stop_loss_perc  = 0.01   // 1%
+wick_threshold  = 0.003  // 上下影线绝对值阈值
+bb_length = 20
+bb_mult = 2.0
+
+// === 布林带 ===
+basis = ta.sma(close, bb_length)
+dev = bb_mult * ta.stdev(close, bb_length)
+upper = basis + dev
+lower = basis - dev
+
+// === 影线计算 ===
+upper_wick = high - math.max(open, close)
+lower_wick = math.min(open, close) - low
+
+// === 影线条件 ===
+upper_wick_cond = upper_wick >= wick_threshold
+lower_wick_cond = lower_wick >= wick_threshold
+
+// === 上影线穿越上轨 ===
+upper_wick_cross = (high > upper) and (math.max(open, close) < upper)
+// === 下影线穿越下轨 ===
+lower_wick_cross = (low < lower) and (math.min(open, close) > lower)
+
+// === 反向开仓价格 ===
+body = math.abs(close - open)
+upper_entry_price = math.max(open, close) + body
+lower_entry_price = math.min(open, close) - body
+
+// === 信号 ===
+short_signal = upper_wick_cond and upper_wick_cross
+long_signal  = lower_wick_cond and lower_wick_cross
+
+// === 下单逻辑 ===
+if short_signal
+    // 限价开空
+    strategy.entry("Short", strategy.short, qty=na, limit=upper_entry_price, comment="上影线反向开空")
+    // 止盈止损
+    strategy.exit("Short TP/SL", from_entry="Short",
+      limit=upper_entry_price * (1 - take_profit_perc),
+      stop=upper_entry_price * (1 + stop_loss_perc)
+    )
+
+if long_signal
+    // 限价开多
+    strategy.entry("Long", strategy.long, qty=na, limit=lower_entry_price, comment="下影线反向开多")
+    // 止盈止损
+    strategy.exit("Long TP/SL", from_entry="Long",
+      limit=lower_entry_price * (1 + take_profit_perc),
+      stop=lower_entry_price * (1 - stop_loss_perc)
+    )
+
+// === 可视化 ===
+plot(upper, color=color.red, linewidth=1, title="布林带上轨")
+plot(lower, color=color.green, linewidth=1, title="布林带下轨")
+plotshape(short_signal, title="上影线反向开空信号", style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small)
+plotshape(long_signal, title="下影线反向开多信号", style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small)
+
+// === 信息表格 ===
+var table info_table = table.new(position.top_right, 2, 6, bgcolor=color.white, border_width=1)
+if barstate.islast
+    table.cell(info_table, 0, 0, "参数", text_color=color.black, bgcolor=color.gray)
+    table.cell(info_table, 1, 0, "数值", text_color=color.black, bgcolor=color.gray)
+    table.cell(info_table, 0, 1, "杠杆", text_color=color.black)
+    table.cell(info_table, 1, 1, str.tostring(leverage), text_color=color.blue)
+    table.cell(info_table, 0, 2, "影线阈值", text_color=color.black)
+    table.cell(info_table, 1, 2, str.tostring(wick_threshold), text_color=color.blue)
+    table.cell(info_table, 0, 3, "止盈%", text_color=color.black)
+    table.cell(info_table, 1, 3, str.tostring(take_profit_perc * 100, "#.##") + "%", text_color=color.green)
+    table.cell(info_table, 0, 4, "止损%", text_color=color.black)
+    table.cell(info_table, 1, 4, str.tostring(stop_loss_perc * 100, "#.##") + "%", text_color=color.red)
+    table.cell(info_table, 0, 5, "当前持仓", text_color=color.black)
+    table.cell(info_table, 1, 5, str.tostring(strategy.position_size), text_color=color.black) 
